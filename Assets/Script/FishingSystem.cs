@@ -6,9 +6,11 @@ using UnityEngine.EventSystems;
 
 public class FishingSystem : MonoBehaviour
 {
+    public float FishRobWear;
     public float MaxFishHp;
     public float CurrentFishHp;
-    public float FishRobHp;
+    public float MaxFishRobHp;
+    public float CurrentFishRobHp;
     public float FishRobPower;
     public bool Ishrowing;
     private bool IsFocus;
@@ -19,6 +21,7 @@ public class FishingSystem : MonoBehaviour
     {
         Ishrowing = false;
         CurrentFishHp = MaxFishHp;
+        CurrentFishRobHp = MaxFishRobHp;
     }
 
     // Update is called once per frame
@@ -29,35 +32,35 @@ public class FishingSystem : MonoBehaviour
 
     void Fishing()
     {
-        if(IsFocus == true)
+        if(!IsFocus || Input.touchCount == 0)
         {
-            if (Input.touchCount > 0)
+            return;
+        }
+        Touch touch = Input.GetTouch(0);
+
+        if (!EventSystem.current.IsPointerOverGameObject(touch.fingerId))
+        {
+            if (touch.phase == TouchPhase.Began)
             {
-                for(int i = 0; i < Input.touchCount; i++)
+                if (Ishrowing)
                 {
-                    if (EventSystem.current.IsPointerOverGameObject(i) == false)
+                    CurrentFishHp -= FishRobPower;
+                    CurrentFishRobHp -= FishRobWear;
+                    if (CurrentFishHp == 0)
                     {
-                        Touch touch = Input.GetTouch(0);
-                        if (touch.phase == TouchPhase.Began)
-                        {
-                            if (Ishrowing)
-                            {
-                                CurrentFishHp -= FishRobPower;
-                                if (CurrentFishHp == 0)
-                                {
-                                    CurrentFishHp = MaxFishHp;
-                                    Ishrowing = false;
-                                }
-                            }
-                            else
-                            {
-                                Ishrowing = true;
-                            }
-                        }
+                        CurrentFishHp = MaxFishHp;
+                        Ishrowing = false;
                     }
                 }
-
+                else
+                {
+                    Ishrowing = true;
+                }
             }
+        }
+        if(CurrentFishRobHp <= 0)
+        {
+            Debug.Log("³«½Ã Á¾·á");
         }
     }
 
