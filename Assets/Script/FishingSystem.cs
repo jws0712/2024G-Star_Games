@@ -6,13 +6,8 @@ using UnityEngine.EventSystems;
 
 public class FishingSystem : MonoBehaviour
 {
-    public float FishRobWear;
-    public float MaxFishHp;
-    public float CurrentFishHp;
-    public float MaxFishRobHp;
-    public float CurrentFishRobHp;
-    public float FishRobPower;
-    public bool Ishrowing;
+
+    private bool Ishrowing;
     private bool IsFocus;
 
 
@@ -20,8 +15,6 @@ public class FishingSystem : MonoBehaviour
     void Start()
     {
         Ishrowing = false;
-        CurrentFishHp = MaxFishHp;
-        CurrentFishRobHp = MaxFishRobHp;
     }
 
     // Update is called once per frame
@@ -44,11 +37,11 @@ public class FishingSystem : MonoBehaviour
             {
                 if (Ishrowing)
                 {
-                    CurrentFishHp -= FishRobPower;
-                    CurrentFishRobHp -= FishRobWear;
-                    if (CurrentFishHp == 0)
+                    GameManager.instance.CurrentFishHp -= GameManager.instance.FishRobPower;
+                    GameManager.instance.CurrentFishRobHp -= GameManager.instance.FishRobWear;
+                    if (GameManager.instance.CurrentFishHp == 0)
                     {
-                        CurrentFishHp = MaxFishHp;
+                        GameManager.instance.CurrentFishHp = GameManager.instance.MaxFishHp;
                         Ishrowing = false;
                     }
                 }
@@ -58,7 +51,7 @@ public class FishingSystem : MonoBehaviour
                 }
             }
         }
-        if(CurrentFishRobHp <= 0)
+        if(GameManager.instance.CurrentFishRobHp <= 0)
         {
             Debug.Log("³«½Ã Á¾·á");
         }
