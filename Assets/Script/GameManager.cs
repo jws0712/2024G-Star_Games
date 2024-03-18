@@ -13,12 +13,17 @@ public class GameManager : MonoBehaviour
     public float CurrentFishRobHp;
     public float FishRobPower;
     // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         GameManager.instance = this;
 
+    }
+
+    void Start()
+    {
         CurrentFishHp = MaxFishHp;
         CurrentFishRobHp = MaxFishRobHp;
+
     }
 
     // Update is called once per frame
