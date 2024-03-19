@@ -775,7 +775,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -330}
+  m_AnchoredPosition: {x: -218, y: -492}
   m_SizeDelta: {x: 300, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &685612325
@@ -1421,7 +1421,7 @@ MonoBehaviour:
   FishRobWear: 1
   MaxFishHp: 50
   CurrentFishHp: 0
-  MaxFishRobHp: 100
+  MaxFishRobHp: 10000
   CurrentFishRobHp: 0
   FishRobPower: 1
 --- !u!4 &1207547310
@@ -1580,6 +1580,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 723782a13decd2347b34870dbeb88f84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnDisplay: 0
+  ActionTime: 3
+  holdTIme: 0.8
+  time: 0
+  actionState: 0
+  playState: 0
 --- !u!4 &1589507598
 Transform:
   m_ObjectHideFlags: 0

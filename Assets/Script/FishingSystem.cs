@@ -6,11 +6,12 @@ using UnityEngine.EventSystems;
 
 public class FishingSystem : MonoBehaviour
 {
-    private bool IsThrowing;
+    public bool OnDisplay;
     private bool IsFocus;
-    private float ActionTime;
-    private float holdTIme;
-
+    public float ActionTime;
+    public float holdTIme;
+    private int ActionNum;
+    public float time = 0;
     public enum PlayState
     {
         Play,
@@ -33,8 +34,8 @@ public class FishingSystem : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        OnDisplay = false;
         actionState = ActionState.Idle;
-        IsThrowing = false;
     }
 
     // Update is called once per frame
@@ -46,6 +47,7 @@ public class FishingSystem : MonoBehaviour
         }
 
         Fishing_Mobile();
+        
     }
 
     void Fishing_Mobile()
@@ -53,44 +55,65 @@ public class FishingSystem : MonoBehaviour
         if(actionState == ActionState.Idle)
         {
             ThrowRob();
+            Debug.Log("¾ÆÀÌµé");
         }
         if(actionState == ActionState.Touch)
         {
-            TouchAction();
-            InvokeRepeating("ActionLogic", 0f, ActionTime);
+            SwipeLeftAction();
+            //TouchAction();
+            //time += Time.deltaTime;
+            //if(time >= ActionTime)
+            //{
+            //    SwipeLeftAction();
+            //}
         }
     }
 
     void ActionLogic()
     {
-        float ActionNum = Random.Range(1, 4);
-        switch (ActionNum)
-        {
-            case 1:
-                {
-                    SwipeLeftAction();
-                    break;
-                }
-            case 2:
-                {
-                    SwipeRightAction();
-                    break;
-                }
-            case 3:
-                {
-                    SwipeUpAction();
-                    break;
-                }
-            case 4:
-                {
-                    HoldAction();
-                    break;
-                }
-        }
+        SwipeLeftAction();
+        //if(ChoiceAction == false)
+        //{
+        //    ActionNum = Random.Range(1, 4);
+        //    ChoiceAction = true;
+        //}
+
+        //switch (ActionNum)
+        //{
+        //    case 1:
+        //        {
+        //            SwipeLeftAction();
+        //            Debug.Log("¿Þ½º");
+
+        //            break;
+        //        }
+        //    case 2:
+        //        {
+        //            SwipeRightAction();
+        //            Debug.Log("¿À½º");
+
+        //            break;
+        //        }
+        //    case 3:
+        //        {
+        //            SwipeUpAction();
+        //            Debug.Log("¾÷½º");
+
+        //            break;
+        //        }
+        //    case 4:
+        //        {
+        //            HoldAction();
+        //            Debug.Log("È¦µå");
+
+        //            break;
+        //        }
+        //}
     }
 
     void ThrowRob()
     {
+        Debug.Log("´øÁö±â");
         Vector2 StartTocuh = Vector2.zero;
         Vector2 EndTocuh = Vector2.zero;
 
@@ -104,21 +127,26 @@ public class FishingSystem : MonoBehaviour
         {
             if (touch.phase == TouchPhase.Began)
             {
+                OnDisplay = true;
                 StartTocuh = Input.GetTouch(0).position;
+                Debug.Log(StartTocuh);
             }
 
             if (touch.phase == TouchPhase.Ended)
             {
+                
                 EndTocuh = Input.GetTouch(0).position;
+                Debug.Log(EndTocuh);
 
-                if (StartTocuh.y > EndTocuh.y)
+                if (StartTocuh.y < EndTocuh.y && OnDisplay)
                 {
                     actionState = ActionState.Touch;
+                    OnDisplay = false;
+                    Debug.Log("´øÁü");
                 }
             }
         }
     }
-
 
     void TouchAction()
     {
@@ -138,45 +166,15 @@ public class FishingSystem : MonoBehaviour
         }
     }
 
-    void SwipeUpAction()
-    {
-        actionState = ActionState.Swipe;
-        Vector2 StartTocuh = Vector2.zero;
-        Vector2 EndTocuh = Vector2.zero;
-        if (!IsFocus || Input.touchCount == 0)
-        {
-            return;
-        }
-        Touch touch = Input.GetTouch(0);
-
-        if (!EventSystem.current.IsPointerOverGameObject(touch.fingerId))
-        {
-            if(touch.phase == TouchPhase.Began)
-            {
-                StartTocuh = Input.GetTouch(0).position;
-            }
-
-            if (touch.phase == TouchPhase.Ended)
-            {
-                EndTocuh = Input.GetTouch(0).position;
-
-                if(StartTocuh.y > EndTocuh.y)
-                {
-                    GameManager.instance.CurrentFishHp -= GameManager.instance.FishRobPower * 5;
-                    GameManager.instance.CurrentFishRobHp -= GameManager.instance.FishRobWear * 2;
-                    actionState = ActionState.Touch;
-                }
-            }
-        }
-    }
 
     void SwipeLeftAction()
     {
-        actionState = ActionState.Swipe;
         Vector2 StartTocuh = Vector2.zero;
         Vector2 EndTocuh = Vector2.zero;
+
         if (!IsFocus || Input.touchCount == 0)
         {
+            Debug.Log("ÀÌ°Å");
             return;
         }
         Touch touch = Input.GetTouch(0);
@@ -185,83 +183,57 @@ public class FishingSystem : MonoBehaviour
         {
             if (touch.phase == TouchPhase.Began)
             {
+                OnDisplay = true;
                 StartTocuh = Input.GetTouch(0).position;
+                Debug.Log(StartTocuh);
             }
 
             if (touch.phase == TouchPhase.Ended)
             {
+
                 EndTocuh = Input.GetTouch(0).position;
+                Debug.Log(EndTocuh);
+
 
                 if (StartTocuh.x > EndTocuh.x)
                 {
+                    Debug.Log("¿Þ½º");
                     GameManager.instance.CurrentFishHp -= GameManager.instance.FishRobPower * 3;
                     GameManager.instance.CurrentFishRobHp -= GameManager.instance.FishRobWear * 2;
-                    actionState = ActionState.Touch;
                 }
             }
         }
     }
 
-    void SwipeRightAction()
-    {
-        actionState = ActionState.Swipe;
-        Vector2 StartTocuh = Vector2.zero;
-        Vector2 EndTocuh = Vector2.zero;
-        if (!IsFocus || Input.touchCount == 0)
-        {
-            return;
-        }
-        Touch touch = Input.GetTouch(0);
+    //void HoldAction()
+    //{
+    //    actionState = ActionState.Hold;
+    //    float timeer = 0;
 
-        if (!EventSystem.current.IsPointerOverGameObject(touch.fingerId))
-        {
-            if (touch.phase == TouchPhase.Began)
-            {
-                StartTocuh = Input.GetTouch(0).position;
-            }
+    //    if (!IsFocus || Input.touchCount == 0)
+    //    {
+    //        return;
+    //    }
+    //    Touch touch = Input.GetTouch(0);
 
-            if (touch.phase == TouchPhase.Ended)
-            {
-                EndTocuh = Input.GetTouch(0).position;
+    //    if (!EventSystem.current.IsPointerOverGameObject(touch.fingerId))
+    //    {
+    //        if(touch.phase == TouchPhase.Stationary || touch.phase == TouchPhase.Moved)
+    //        {
+    //            timeer += Time.deltaTime;
+    //            if(timeer >= holdTIme)
+    //            {
+    //                if(touch.phase == TouchPhase.Ended)
+    //                {
+    //                    actionState = ActionState.Touch;
+    //                    GameManager.instance.CurrentFishHp -= GameManager.instance.FishRobPower * 5;
+    //                    GameManager.instance.CurrentFishRobHp -= GameManager.instance.FishRobWear * 4;
 
-                if (StartTocuh.x < EndTocuh.x)
-                {
-                    GameManager.instance.CurrentFishHp -= GameManager.instance.FishRobPower * 3;
-                    GameManager.instance.CurrentFishRobHp -= GameManager.instance.FishRobWear * 2;
-                    actionState = ActionState.Touch;
-                }
-            }
-        }
-    }
-
-    void HoldAction()
-    {
-        actionState = ActionState.Hold;
-        float timeer = 0;
-
-        if (!IsFocus || Input.touchCount == 0)
-        {
-            return;
-        }
-        Touch touch = Input.GetTouch(0);
-
-        if (!EventSystem.current.IsPointerOverGameObject(touch.fingerId))
-        {
-            if(touch.phase == TouchPhase.Stationary || touch.phase == TouchPhase.Moved)
-            {
-                timeer += Time.deltaTime;
-                if(timeer >= holdTIme)
-                {
-                    if(touch.phase == TouchPhase.Ended)
-                    {
-                        GameManager.instance.CurrentFishHp -= GameManager.instance.FishRobPower * 5;
-                        GameManager.instance.CurrentFishRobHp -= GameManager.instance.FishRobWear * 4;
-                        actionState = ActionState.Touch;
-                    }
-                }
-            }
-        }
-    }
+    //                }
+    //            }
+    //        }
+    //    }
+    //}
 
     void Fail()
     {
