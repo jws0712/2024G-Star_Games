@@ -174,35 +174,34 @@ public class FishingSystem : MonoBehaviour
 
         if (!IsFocus || Input.touchCount == 0)
         {
-            Debug.Log("ÀÌ°Å");
-            return;
-        }
-        Touch touch = Input.GetTouch(0);
+            Touch touch = Input.GetTouch(0);
 
-        if (!EventSystem.current.IsPointerOverGameObject(touch.fingerId))
-        {
-            if (touch.phase == TouchPhase.Began)
+            if (!EventSystem.current.IsPointerOverGameObject(touch.fingerId))
             {
-                OnDisplay = true;
-                StartTocuh = Input.GetTouch(0).position;
-                Debug.Log(StartTocuh);
-            }
-
-            if (touch.phase == TouchPhase.Ended)
-            {
-
-                EndTocuh = Input.GetTouch(0).position;
-                Debug.Log(EndTocuh);
-
-
-                if (StartTocuh.x > EndTocuh.x)
+                if (touch.phase == TouchPhase.Began)
                 {
-                    Debug.Log("¿Þ½º");
-                    GameManager.instance.CurrentFishHp -= GameManager.instance.FishRobPower * 3;
-                    GameManager.instance.CurrentFishRobHp -= GameManager.instance.FishRobWear * 2;
+                    OnDisplay = true;
+                    StartTocuh = Input.GetTouch(0).position;
+                    Debug.Log(StartTocuh);
+                }
+
+                if (touch.phase == TouchPhase.Ended)
+                {
+
+                    EndTocuh = Input.GetTouch(0).position;
+                    Debug.Log(EndTocuh);
+
+
+                    if (StartTocuh.x > EndTocuh.x)
+                    {
+                        Debug.Log("¿Þ½º");
+                        GameManager.instance.CurrentFishHp -= GameManager.instance.FishRobPower * 3;
+                        GameManager.instance.CurrentFishRobHp -= GameManager.instance.FishRobWear * 2;
+                    }
                 }
             }
         }
+
     }
 
     //void HoldAction()
