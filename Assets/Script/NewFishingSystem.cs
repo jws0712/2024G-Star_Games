@@ -40,7 +40,7 @@ public class NewFishingSystem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (GameManager.instance.CurrentFishHp == 0)
+        if (GameManager.instance.CurrentFishHp <= 0)
         {
             GameManager.instance.CurrentFishHp = GameManager.instance.MaxFishHp;
         }
