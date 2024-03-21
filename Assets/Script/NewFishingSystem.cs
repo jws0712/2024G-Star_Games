@@ -6,9 +6,11 @@ public class NewFishingSystem : MonoBehaviour
 {
     private bool IsFocus;
     public float ActionTime;
+    public float WaitFishTime;
     public float time;
     public float ActionNum;
-    private bool Once;
+    private bool AcitonOnce;
+    private bool WaitOnce;
 
     private Vector2 StartPoint;
     private Vector2 EndPoint;
@@ -21,6 +23,7 @@ public class NewFishingSystem : MonoBehaviour
     public enum ActionState
     {
         Idle,
+        Wait,
         Swipe,
         Hold,
         Touch,
@@ -43,9 +46,26 @@ public class NewFishingSystem : MonoBehaviour
         if (GameManager.instance.CurrentFishHp <= 0)
         {
             GameManager.instance.CurrentFishHp = GameManager.instance.MaxFishHp;
+            actionState = ActionState.Idle;
+            time = 0;
         }
 
         Fishing_Mobile();
+    }
+
+    void WaitFish()
+    {
+        Debug.Log("대기");
+        time += Time.deltaTime;
+        if(WaitOnce == false)
+        {
+            WaitFishTime = Random.Range(3, 9);
+            WaitOnce = true;
+        }
+        if(time >= WaitFishTime)
+        {
+            CatchFish();
+        }
     }
 
     void Fishing_Mobile()
@@ -56,7 +76,7 @@ public class NewFishingSystem : MonoBehaviour
             ThrowRob();
 
         }
-        if (actionState == ActionState.Touch)
+        else if (actionState == ActionState.Touch)
         {
             TouchAction();
             time += Time.deltaTime;
@@ -65,18 +85,22 @@ public class NewFishingSystem : MonoBehaviour
                 actionState = ActionState.Swipe;
             }
         }
-        if (actionState == ActionState.Swipe)
+        else if (actionState == ActionState.Swipe)
         {
             ActionLogic();
+        }
+        else if (actionState == ActionState.Wait)
+        {
+            WaitFish();
         }
     }
 
     void ActionLogic()
     {
-        if(Once == false)
+        if(AcitonOnce == false)
         {
             ActionNum = Random.Range(1, 4);
-            Once = true;
+            AcitonOnce = true;
         }
 
 
@@ -100,8 +124,28 @@ public class NewFishingSystem : MonoBehaviour
         }
     }
 
+    void CatchFish()
+    {
+        Debug.Log("잡아!");
+        if (!IsFocus || Input.touchCount == 0)
+        {
+            return;
+        }
+
+        Touch touch = Input.GetTouch(0);
+        if (!EventSystem.current.IsPointerOverGameObject(touch.fingerId))
+        {
+            if (touch.phase == TouchPhase.Began)
+            {
+                actionState = ActionState.Touch;
+                time = 0;
+            }
+        }
+    }
+
     void TouchAction()
     {
+        Debug.Log("터치!");
         if (!IsFocus || Input.touchCount == 0)
         {
             return;
@@ -140,7 +184,7 @@ public class NewFishingSystem : MonoBehaviour
                     if (EndPoint.y > StartPoint.y)
                     {
                         Debug.Log("던짐");
-                        actionState = ActionState.Touch;
+                        actionState = ActionState.Wait;
                     }
                 }
             }
@@ -171,7 +215,7 @@ public class NewFishingSystem : MonoBehaviour
                         GameManager.instance.CurrentFishRobHp -= GameManager.instance.FishRobWear * 3;
                         actionState = ActionState.Touch;
                         time = 0;
-                        Once = false;
+                        AcitonOnce = false;
                     }
                 }
             }
@@ -203,7 +247,7 @@ public class NewFishingSystem : MonoBehaviour
                         GameManager.instance.CurrentFishRobHp -= GameManager.instance.FishRobWear * 3;
                         actionState = ActionState.Touch;
                         time = 0;
-                        Once = false;
+                        AcitonOnce = false;
                     }
                 }
             }
@@ -235,7 +279,7 @@ public class NewFishingSystem : MonoBehaviour
                         GameManager.instance.CurrentFishRobHp -= GameManager.instance.FishRobWear * 3;
                         actionState = ActionState.Touch;
                         time = 0;
-                        Once = false;
+                        AcitonOnce = false;
                     }
                 }
             }
