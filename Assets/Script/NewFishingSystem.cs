@@ -11,6 +11,8 @@ public class NewFishingSystem : MonoBehaviour
     public float ActionNum;
     private bool AcitonOnce;
     private bool WaitOnce;
+    public GameObject TouchUI;
+    public GameObject SwipeUI;
 
     private Vector2 StartPoint;
     private Vector2 EndPoint;
@@ -46,6 +48,8 @@ public class NewFishingSystem : MonoBehaviour
         if (GameManager.instance.CurrentFishHp <= 0)
         {
             GameManager.instance.CurrentFishHp = GameManager.instance.MaxFishHp;
+            GameManager.instance.UIOn = false;
+            GameManager.instance.CurrentFishingTime = GameManager.instance.MaxFishingTime;
             actionState = ActionState.Idle;
             time = 0;
         }
@@ -65,6 +69,7 @@ public class NewFishingSystem : MonoBehaviour
         if(time >= WaitFishTime)
         {
             CatchFish();
+            TouchUI.SetActive(true);
         }
     }
 
@@ -74,10 +79,15 @@ public class NewFishingSystem : MonoBehaviour
         if (actionState == ActionState.Idle)
         {
             ThrowRob();
-
+            SwipeUI.SetActive(true);
+            TouchUI.SetActive(false);
         }
         else if (actionState == ActionState.Touch)
         {
+            SwipeUI.SetActive(false);
+            TouchUI.SetActive(true);
+            GameManager.instance.UIOn = true;
+            Debug.Log("¿©±â");
             TouchAction();
             time += Time.deltaTime;
             if (time >= ActionTime)
@@ -87,11 +97,14 @@ public class NewFishingSystem : MonoBehaviour
         }
         else if (actionState == ActionState.Swipe)
         {
+            SwipeUI.SetActive(true);
+            TouchUI.SetActive(false);
             ActionLogic();
         }
         else if (actionState == ActionState.Wait)
         {
             WaitFish();
+            SwipeUI.SetActive(false);
         }
     }
 
@@ -158,6 +171,7 @@ public class NewFishingSystem : MonoBehaviour
             {
                 GameManager.instance.CurrentFishHp -= GameManager.instance.FishRobPower;
                 GameManager.instance.CurrentFishRobHp -= GameManager.instance.FishRobWear;
+                GameManager.instance.CurrentFishingTime = GameManager.instance.MaxFishingTime;
             }
         }
     }
@@ -216,6 +230,7 @@ public class NewFishingSystem : MonoBehaviour
                         actionState = ActionState.Touch;
                         time = 0;
                         AcitonOnce = false;
+                        GameManager.instance.CurrentFishingTime = GameManager.instance.MaxFishingTime;
                     }
                 }
             }
@@ -248,6 +263,7 @@ public class NewFishingSystem : MonoBehaviour
                         actionState = ActionState.Touch;
                         time = 0;
                         AcitonOnce = false;
+                        GameManager.instance.CurrentFishingTime = GameManager.instance.MaxFishingTime;
                     }
                 }
             }
@@ -280,6 +296,7 @@ public class NewFishingSystem : MonoBehaviour
                         actionState = ActionState.Touch;
                         time = 0;
                         AcitonOnce = false;
+                        GameManager.instance.CurrentFishingTime = GameManager.instance.MaxFishingTime;
                     }
                 }
             }

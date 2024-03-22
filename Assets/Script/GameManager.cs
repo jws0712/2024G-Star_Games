@@ -12,10 +12,17 @@ public class GameManager : MonoBehaviour
     public float MaxFishRobHp;
     public float CurrentFishRobHp;
     public float FishRobPower;
+    public float CurrentFishingTime;
+    public float MaxFishingTime;
+    public bool UIOn;
     // Start is called before the first frame update
     private void Awake()
     {
         GameManager.instance = this;
+        UIOn = false;
+        CurrentFishingTime = 0;
+        MaxFishingTime = 1.5f;
+        CurrentFishingTime = MaxFishingTime;
 
     }
 
@@ -23,12 +30,17 @@ public class GameManager : MonoBehaviour
     {
         CurrentFishHp = MaxFishHp;
         CurrentFishRobHp = MaxFishRobHp;
+ 
 
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(GameManager.instance.UIOn == true)
+        {
+            CurrentFishingTime -= Time.deltaTime;
+        }
         
     }
 }
