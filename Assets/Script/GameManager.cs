@@ -19,15 +19,14 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         GameManager.instance = this;
-        UIOn = false;
-        CurrentFishingTime = 0;
-        MaxFishingTime = 1.5f;
-        CurrentFishingTime = MaxFishingTime;
-
     }
 
     void Start()
     {
+        UIOn = false;
+        CurrentFishingTime = 0;
+        MaxFishingTime = 1.5f;
+        CurrentFishingTime = MaxFishingTime;
         CurrentFishHp = MaxFishHp;
         CurrentFishRobHp = MaxFishRobHp;
  
