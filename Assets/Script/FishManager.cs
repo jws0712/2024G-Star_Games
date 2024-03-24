@@ -9,8 +9,8 @@ public class FishManager : MonoBehaviour
 
     private int TearNum;
     private int FishNum;
-    private bool ChoiceFishTearOnce;
-    private bool ChoiceFishOnce;
+    public bool ChoiceFishTearOnce;
+    public bool ChoiceFishOnce;
 
     [Serializable]
     public class S_FishList
@@ -94,42 +94,34 @@ public class FishManager : MonoBehaviour
     {
         if (ChoiceFishTearOnce == false)
         {
-            TearNum = UnityEngine.Random.Range(1, 7);
+            TearNum = UnityEngine.Random.Range(1, 101);
             ChoiceFishTearOnce = true;
         }
-        switch (TearNum)
+        if(TearNum >= 100)
         {
-            case 1:
-                {
-                    ChoiceFish_S();
-                    break;
-                }
-            case 2:
-                {
-                    ChoiceFish_A();
-                    break;
-                }
-            case 3:
-                {
-                    ChoiceFish_B();
-                    break;
-                }
-            case 4:
-                {
-                    ChoiceFish_C();
-                    break;
-                }
-            case 5:
-                {
-                    ChoiceFish_D();
-                    break;
-                }
-            case 6:
-                {
-                    ChoiceFish_F();
-                    break;
-                }
+            ChoiceFish_F();
         }
+        //else if(TearNum >= )
+        //{
+        //    ChoiceFish_D();
+        //}
+        //else if (TearNum >= )
+        //{
+        //    ChoiceFish_C();
+        //}
+        //else if (TearNum >= )
+        //{
+        //    ChoiceFish_B();
+        //}
+        //else if (TearNum >= )
+        //{
+        //    ChoiceFish_A();
+        //}
+        else if(TearNum >= 1)
+        {
+            ChoiceFish_S();
+        }
+        
     }
 
     void ChoiceFish_S()

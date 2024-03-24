@@ -16,12 +16,7 @@ public class NewFishingSystem : MonoBehaviour
 
     private Vector2 StartPoint;
     private Vector2 EndPoint;
-    public enum PlayState
-    {
-        Play,
-        End,
-        Pause
-    }
+
     public enum ActionState
     {
         Idle,
@@ -32,27 +27,18 @@ public class NewFishingSystem : MonoBehaviour
     }
 
     public ActionState actionState;
-    public PlayState playState;
 
 
 
-    // Start is called before the first frame update
     void Start()
     {
         actionState = ActionState.Idle;
     }
 
-    // Update is called once per frame
+
     void Update()
     {
-        if (GameManager.instance.CurrentFishHp <= 0)
-        {
-            GameManager.instance.CurrentFishHp = GameManager.instance.MaxFishHp;
-            GameManager.instance.UIOn = false;
-            GameManager.instance.CurrentFishingTime = GameManager.instance.MaxFishingTime;
-            actionState = ActionState.Idle;
-            time = 0;
-        }
+        SetGame();
 
         Fishing_Mobile();
     }
@@ -280,7 +266,6 @@ public class NewFishingSystem : MonoBehaviour
             Touch touch = Input.GetTouch(0);
             if (!EventSystem.current.IsPointerOverGameObject(touch.fingerId))
             {
-                Debug.Log("위쪽실행");
                 if (touch.phase == TouchPhase.Began)
                 {
                     StartPoint = touch.position;
@@ -300,6 +285,20 @@ public class NewFishingSystem : MonoBehaviour
                     }
                 }
             }
+        }
+    }
+
+    void SetGame()
+    {
+        if (GameManager.instance.CurrentFishHp <= 0)
+        {
+            GameManager.instance.CurrentFishHp = GameManager.instance.MaxFishHp;
+            GameManager.instance.UIOn = false;
+            GameManager.instance.CurrentFishingTime = GameManager.instance.MaxFishingTime;
+            actionState = ActionState.Idle;
+            time = 0;
+            FishManager.instance.ChoiceFishOnce = true;
+            FishManager.instance.ChoiceFishTearOnce = true;
         }
     }
 
