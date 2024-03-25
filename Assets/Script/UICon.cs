@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class UICon : MonoBehaviour
 {
+
     public Slider HPSlider_R;
     public Slider HPSlider_R_E;
 
@@ -22,7 +23,8 @@ public class UICon : MonoBehaviour
     public Text FishName;
     public Image FishIcon;
 
-    // Start is called before the first frame update
+    
+
     void Start()
     {
 
@@ -34,8 +36,7 @@ public class UICon : MonoBehaviour
             }
         }
     }
-
-    // Update is called once per frame
+    
     void Update()
     {
         SetFishInfo();

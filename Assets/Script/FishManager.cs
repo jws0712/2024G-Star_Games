@@ -7,8 +7,8 @@ public class FishManager : MonoBehaviour
 {
     public static FishManager instance { private set; get; }
 
-    public int TearNum;
-    public int FishNum;
+    private int TearNum;
+    private int FishNum;
     public bool ChoiceFishTearOnce;
     public bool ChoiceFishOnce;
 
@@ -65,7 +65,5 @@ public class FishManager : MonoBehaviour
         GameManager.instance.FishRobWear = S_Fishlist[FishNum].FishPower;
         GameManager.instance.FishIcon = S_Fishlist[FishNum].FishIcon;
         GameManager.instance.FishName = S_Fishlist[FishNum].FishName;
-
-        Debug.Log(S_Fishlist[FishNum].FishHp);
     }
 }

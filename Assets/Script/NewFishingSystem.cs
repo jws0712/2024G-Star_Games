@@ -4,20 +4,26 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 public class NewFishingSystem : MonoBehaviour
 {
+
+    private float ActionTime;
+    private float WaitFishTime;
+    private float time;
+    private float ActionNum;
+
     private bool IsFocus;
-    public float ActionTime;
-    public float WaitFishTime;
-    public float time;
-    public float ActionNum;
     private bool AcitonOnce;
     private bool WaitOnce;
+
+    [Header("UI")]
+
     public GameObject TouchUI;
     public GameObject SwipeUI;
+    public GameObject ThrowButton;
 
     private Vector2 StartPoint;
     private Vector2 EndPoint;
 
-    public enum ActionState
+    public enum GameFlow
     {
         Idle,
         Wait,
@@ -27,20 +33,19 @@ public class NewFishingSystem : MonoBehaviour
         result
     }
 
-    public ActionState actionState;
-
+    public GameFlow flow;
 
 
     void Start()
     {
-        actionState = ActionState.Idle;
+        ActionTime = 3;
+        flow = GameFlow.Idle;
     }
 
 
     void Update()
     {
         SetGame();
-
         Fishing_Mobile();
     }
 
@@ -49,39 +54,58 @@ public class NewFishingSystem : MonoBehaviour
     void Fishing_Mobile()
     {
 
-        if (actionState == ActionState.Idle)
+        if (flow == GameFlow.Idle)
         {
-            ThrowRob();
-            SwipeUI.SetActive(true);
+            ThrowButton.SetActive(true);
+            SwipeUI.SetActive(false);
             TouchUI.SetActive(false);
         }
-        else if (actionState == ActionState.Touch)
+        else if (flow == GameFlow.Touch)
         {
-            SwipeUI.SetActive(false);
-            TouchUI.SetActive(true);
             GameManager.instance.UIOn = true;
-            Debug.Log("여기");
+
             TouchAction();
+
             time += Time.deltaTime;
             if (time >= ActionTime)
             {
-                actionState = ActionState.Swipe;
+                flow = GameFlow.Swipe;
             }
+
+            SwipeUI.SetActive(false);
+            TouchUI.SetActive(true);
         }
-        else if (actionState == ActionState.Swipe)
+        else if (flow == GameFlow.Swipe)
         {
+            ActionLogic();
+
             SwipeUI.SetActive(true);
             TouchUI.SetActive(false);
-            ActionLogic();
         }
-        else if (actionState == ActionState.Wait)
+        else if (flow == GameFlow.Wait)
         {
-            Debug.Log("기다려");
             WaitFish();
+
             SwipeUI.SetActive(false);
+            ThrowButton.SetActive(false);
+        }
+        else if (flow == GameFlow.result)
+        {
+            GameManager.instance.FishUIOn = true;
+            SwipeUI.SetActive(false);
+            TouchUI.SetActive(false);
         }
     }
 
+    public void GameResult()
+    {
+        flow = GameFlow.Idle;
+        GameManager.instance.FishUIOn = false;
+    }
+    public void ThrowRob()
+    {
+        flow = GameFlow.Wait;
+    }
     void WaitFish()
     {
         Debug.Log("대기");
@@ -98,35 +122,6 @@ public class NewFishingSystem : MonoBehaviour
         }
     }
 
-    void ActionLogic()
-    {
-        if(AcitonOnce == false)
-        {
-            ActionNum = Random.Range(1, 4);
-            AcitonOnce = true;
-        }
-
-
-        if(ActionNum == 1)
-        {
-            SwipeLeftAction();
-            Debug.Log("실행1");
-
-        }
-        else if (ActionNum == 2)
-        {
-            SwipeRightAction();
-            Debug.Log("실행2");
-
-        }
-        else if (ActionNum == 3)
-        {
-            SwipeUpAction();
-            Debug.Log("실행3");
-
-        }
-    }
-
     void CatchFish()
     {
         Debug.Log("잡아!");
@@ -140,15 +135,13 @@ public class NewFishingSystem : MonoBehaviour
         {
             if (touch.phase == TouchPhase.Began)
             {
-                actionState = ActionState.Touch;
+                flow = GameFlow.Touch;
                 time = 0;
             }
         }
     }
-
     void TouchAction()
     {
-        Debug.Log("터치!");
         if (!IsFocus || Input.touchCount == 0)
         {
             return;
@@ -165,36 +158,28 @@ public class NewFishingSystem : MonoBehaviour
             }
         }
     }
-    void ThrowRob()
+    void ActionLogic()
     {
-        if (!IsFocus)
+        if(AcitonOnce == false)
         {
-            return;
+            ActionNum = Random.Range(1, 4);
+            AcitonOnce = true;
         }
 
-        if (Input.touchCount > 0)
+        if(ActionNum == 1)
         {
-            Touch touch = Input.GetTouch(0);
-            if (!EventSystem.current.IsPointerOverGameObject(touch.fingerId))
-            {
-                if (touch.phase == TouchPhase.Began)
-                {
-                    StartPoint = touch.position;
-                }
-                if (touch.phase == TouchPhase.Ended)
-                {
-                    EndPoint = touch.position;
-
-                    if (EndPoint.y > StartPoint.y)
-                    {
-                        Debug.Log("던짐");
-                        actionState = ActionState.Wait;
-                    }
-                }
-            }
+            SwipeLeftAction();
 
         }
+        else if (ActionNum == 2)
+        {
+            SwipeRightAction();
 
+        }
+        else if (ActionNum == 3)
+        {
+            SwipeUpAction();
+        }
     }
 
     void SwipeLeftAction()
@@ -202,7 +187,6 @@ public class NewFishingSystem : MonoBehaviour
 
         if(Input.touchCount > 0 || !IsFocus)
         {
-            Debug.Log("왼쪽실행");
             Touch touch = Input.GetTouch(0);
             if (!EventSystem.current.IsPointerOverGameObject(touch.fingerId))
             {
@@ -215,12 +199,13 @@ public class NewFishingSystem : MonoBehaviour
                     EndPoint = touch.position;
                     if (EndPoint.x < StartPoint.x)
                     {
+                        GameManager.instance.CurrentFishingTime = GameManager.instance.MaxFishingTime;
                         GameManager.instance.CurrentFishHp -= GameManager.instance.FishRobPower * 5;
                         GameManager.instance.CurrentFishRobHp -= GameManager.instance.FishRobWear * 3;
-                        actionState = ActionState.Touch;
+                        flow = GameFlow.Touch;
                         time = 0;
                         AcitonOnce = false;
-                        GameManager.instance.CurrentFishingTime = GameManager.instance.MaxFishingTime;
+
                     }
                 }
             }
@@ -237,7 +222,6 @@ public class NewFishingSystem : MonoBehaviour
             Touch touch = Input.GetTouch(0);
             if (!EventSystem.current.IsPointerOverGameObject(touch.fingerId))
             {
-                Debug.Log("오른쪽실행");
                 if (touch.phase == TouchPhase.Began)
                 {
                     StartPoint = touch.position;
@@ -248,12 +232,13 @@ public class NewFishingSystem : MonoBehaviour
 
                     if (EndPoint.x > StartPoint.x)
                     {
+                        GameManager.instance.CurrentFishingTime = GameManager.instance.MaxFishingTime;
                         GameManager.instance.CurrentFishHp -= GameManager.instance.FishRobPower * 5;
                         GameManager.instance.CurrentFishRobHp -= GameManager.instance.FishRobWear * 3;
-                        actionState = ActionState.Touch;
+                        flow = GameFlow.Touch;
                         time = 0;
                         AcitonOnce = false;
-                        GameManager.instance.CurrentFishingTime = GameManager.instance.MaxFishingTime;
+
                     }
                 }
             }
@@ -280,12 +265,13 @@ public class NewFishingSystem : MonoBehaviour
 
                     if (EndPoint.y > StartPoint.y)
                     {
+                        GameManager.instance.CurrentFishingTime = GameManager.instance.MaxFishingTime;
                         GameManager.instance.CurrentFishHp -= GameManager.instance.FishRobPower * 5;
                         GameManager.instance.CurrentFishRobHp -= GameManager.instance.FishRobWear * 3;
-                        actionState = ActionState.Touch;
+                        flow = GameFlow.Touch;
                         time = 0;
                         AcitonOnce = false;
-                        GameManager.instance.CurrentFishingTime = GameManager.instance.MaxFishingTime;
+
                     }
                 }
             }
@@ -298,11 +284,10 @@ public class NewFishingSystem : MonoBehaviour
         {
             FishManager.instance.ChoiceFish();
             GameManager.instance.CurrentFishHp = GameManager.instance.MaxFishHp;
-            GameManager.instance.UIOn = false;
             GameManager.instance.CurrentFishingTime = GameManager.instance.MaxFishingTime;
-            actionState = ActionState.Idle;
+            GameManager.instance.UIOn = false;
+            flow = GameFlow.result;
             time = 0;
-            GameManager.instance.FishUIOn = true;
         }
     }
 
