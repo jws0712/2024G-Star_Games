@@ -24,6 +24,7 @@ public class NewFishingSystem : MonoBehaviour
         Swipe,
         Hold,
         Touch,
+        result
     }
 
     public ActionState actionState;
@@ -43,21 +44,7 @@ public class NewFishingSystem : MonoBehaviour
         Fishing_Mobile();
     }
 
-    void WaitFish()
-    {
-        Debug.Log("대기");
-        time += Time.deltaTime;
-        if(WaitOnce == false)
-        {
-            WaitFishTime = Random.Range(3, 9);
-            WaitOnce = true;
-        }
-        if(time >= WaitFishTime)
-        {
-            CatchFish();
-            TouchUI.SetActive(true);
-        }
-    }
+    
 
     void Fishing_Mobile()
     {
@@ -89,8 +76,25 @@ public class NewFishingSystem : MonoBehaviour
         }
         else if (actionState == ActionState.Wait)
         {
+            Debug.Log("기다려");
             WaitFish();
             SwipeUI.SetActive(false);
+        }
+    }
+
+    void WaitFish()
+    {
+        Debug.Log("대기");
+        time += Time.deltaTime;
+        if (WaitOnce == false)
+        {
+            WaitFishTime = Random.Range(3, 9);
+            WaitOnce = true;
+        }
+        if (time >= WaitFishTime)
+        {
+            CatchFish();
+            TouchUI.SetActive(true);
         }
     }
 
@@ -292,13 +296,13 @@ public class NewFishingSystem : MonoBehaviour
     {
         if (GameManager.instance.CurrentFishHp <= 0)
         {
+            FishManager.instance.ChoiceFish();
             GameManager.instance.CurrentFishHp = GameManager.instance.MaxFishHp;
             GameManager.instance.UIOn = false;
             GameManager.instance.CurrentFishingTime = GameManager.instance.MaxFishingTime;
             actionState = ActionState.Idle;
             time = 0;
-            FishManager.instance.ChoiceFishOnce = true;
-            FishManager.instance.ChoiceFishTearOnce = true;
+            GameManager.instance.FishUIOn = true;
         }
     }
 

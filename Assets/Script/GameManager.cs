@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -27,25 +28,25 @@ public class GameManager : MonoBehaviour
 
     [Header("FishInfo")]
 
-    public GameObject FishIcon;
+    public Sprite FishIcon;
     public string FishName;
     public float Money;
 
     private void Awake()
     {
+        
         GameManager.instance = this;
     }
 
     void Start()
     {
+        FishManager.instance.ChoiceFish();
         UIOn = false;
         CurrentFishingTime = 0;
         MaxFishingTime = 1.5f;
         CurrentFishingTime = MaxFishingTime;
         CurrentFishHp = MaxFishHp;
         CurrentFishRobHp = MaxFishRobHp;
- 
-
     }
 
     // Update is called once per frame

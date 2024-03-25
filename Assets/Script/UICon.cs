@@ -20,7 +20,7 @@ public class UICon : MonoBehaviour
 
     public GameObject FishUI;
     public Text FishName;
-    public GameObject FishIcon;
+    public Image FishIcon;
 
     // Start is called before the first frame update
     void Start()
@@ -72,7 +72,7 @@ public class UICon : MonoBehaviour
             FishUI.SetActive(true);
 
             FishName.text = GameManager.instance.FishName;
-            FishIcon = GameManager.instance.FishIcon;
+            FishIcon.sprite = GameManager.instance.FishIcon;
         }
         else
         {

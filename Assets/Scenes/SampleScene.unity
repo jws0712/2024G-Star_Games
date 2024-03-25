@@ -828,7 +828,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 363238501}
-  - component: {fileID: 363238500}
+  - component: {fileID: 363238502}
   m_Layer: 0
   m_Name: FishManager
   m_TagString: Untagged
@@ -836,26 +836,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &363238500
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 363238499}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d8da5c8b95c46d47916774346629911, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ChoiceFishTearOnce: 0
-  ChoiceFishOnce: 0
-  S_Fishlist: []
-  A_Fishlist: []
-  B_Fishlist: []
-  C_Fishlist: []
-  D_Fishlist: []
-  F_Fishlist: []
 --- !u!4 &363238501
 Transform:
   m_ObjectHideFlags: 0
@@ -871,6 +851,26 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &363238502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 363238499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d6f8e82c78080c419dffdee3183a5e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ChoiceFishTearOnce: 0
+  ChoiceFishOnce: 0
+  S_Fishlist:
+  - FihsIcon: {fileID: 2071469740, guid: b30e42f79ea3c9a4fa947c5e46936972, type: 3}
+    FishName: skjdfslk
+    FishHp: 100
+    FishPower: 10
+    MoneyValue: 1000
 --- !u!1 &371562231
 GameObject:
   m_ObjectHideFlags: 0
@@ -1563,7 +1563,9 @@ MonoBehaviour:
   - {fileID: 1056748796}
   - {fileID: 1256652493}
   - {fileID: 2109942367}
-  FishUI: {fileID: 0}
+  FishUI: {fileID: 880022861}
+  FishName: {fileID: 163537768}
+  FishIcon: {fileID: 657491953}
 --- !u!4 &1053035486
 Transform:
   m_ObjectHideFlags: 0
@@ -1699,12 +1701,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d68065a1fba493248b4ad6760a9dbdf5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxFishHp: 50
+  MaxFishHp: 0
   CurrentFishHp: 0
-  MaxFishRobHp: 10000
+  MaxFishRobHp: 0
   CurrentFishRobHp: 0
-  FishRobPower: 1
-  FishRobWear: 1
+  FishRobPower: 0
+  FishRobWear: 0
   CurrentFishingTime: 0
   MaxFishingTime: 0
   UIOn: 0
