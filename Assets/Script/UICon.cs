@@ -18,6 +18,10 @@ public class UICon : MonoBehaviour
 
     public GameObject[] Sliders;
 
+    public GameObject FishUI;
+    public Text FishName;
+    public GameObject FishIcon;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -34,21 +38,8 @@ public class UICon : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (GameManager.instance.UIOn == false)
-        {
-            for (int i = 0; i < Sliders.Length; i++)
-            {
-                Sliders[i].gameObject.SetActive(false);
-            }
-        }
-        else if (GameManager.instance.UIOn == true)
-        {
-            for (int i = 0; i < Sliders.Length; i++)
-            {
-                Sliders[i].gameObject.SetActive(true);
-            }
-        }
-
+        SetFishInfo();
+        SetUI();
         HPSlider_Value();
         APSlider_Value();
         TimeSlider_Value();
@@ -72,5 +63,37 @@ public class UICon : MonoBehaviour
     {
         TimeBar.value = GameManager.instance.CurrentFishingTime / GameManager.instance.MaxFishingTime;
         TimeBar_E.value = Mathf.Lerp(TimeBar_E.value, GameManager.instance.CurrentFishingTime / GameManager.instance.MaxFishingTime, LerpSpeed * Time.deltaTime);
+    }
+
+    void SetFishInfo()
+    {
+        if(GameManager.instance.FishUIOn == true)
+        {
+            FishUI.SetActive(true);
+
+            FishName.text = GameManager.instance.FishName;
+            FishIcon = GameManager.instance.FishIcon;
+        }
+        else
+        {
+            FishUI.SetActive(false);
+        }
+    }
+    void SetUI()
+    {
+        if (GameManager.instance.UIOn == false)
+        {
+            for (int i = 0; i < Sliders.Length; i++)
+            {
+                Sliders[i].gameObject.SetActive(false);
+            }
+        }
+        else if (GameManager.instance.UIOn == true)
+        {
+            for (int i = 0; i < Sliders.Length; i++)
+            {
+                Sliders[i].gameObject.SetActive(true);
+            }
+        }
     }
 }

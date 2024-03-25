@@ -65,11 +65,11 @@ public class FishManager : MonoBehaviour
     [Serializable]
     public class F_FishList
     {
-        //public GameObject FihsIcon;
-        //public string FishName;
+        public GameObject FihsIcon;
+        public string FishName;
         public float FishHp;
         public float FishPower;
-        //public float MoneyValue;
+        public float MoneyValue;
     }
 
     public List<S_FishList> S_Fishlist;
@@ -97,7 +97,7 @@ public class FishManager : MonoBehaviour
             TearNum = UnityEngine.Random.Range(1, 101);
             ChoiceFishTearOnce = true;
         }
-        if(TearNum >= 100)
+        if (TearNum >= 100)
         {
             ChoiceFish_F();
         }
@@ -117,16 +117,16 @@ public class FishManager : MonoBehaviour
         //{
         //    ChoiceFish_A();
         //}
-        else if(TearNum >= 1)
+        else if (TearNum >= 1)
         {
             ChoiceFish_S();
         }
-        
+
     }
 
     void ChoiceFish_S()
     {
-        if(ChoiceFishOnce == false)
+        if (ChoiceFishOnce == false)
         {
             FishNum = UnityEngine.Random.Range(0, S_Fishlist.Count);
             ChoiceFishOnce = true;
@@ -134,8 +134,11 @@ public class FishManager : MonoBehaviour
 
         S_Fishlist[FishNum].FishHp = GameManager.instance.MaxFishHp;
         S_Fishlist[FishNum].FishPower = GameManager.instance.FishRobWear;
+        S_Fishlist[FishNum].FihsIcon = GameManager.instance.FishIcon;
+        S_Fishlist[FishNum].FishName = GameManager.instance.FishName;
 
-        
+
+
     }
     void ChoiceFish_A()
     {
@@ -147,6 +150,8 @@ public class FishManager : MonoBehaviour
 
         A_Fishlist[FishNum].FishHp = GameManager.instance.MaxFishHp;
         A_Fishlist[FishNum].FishPower = GameManager.instance.FishRobWear;
+        A_Fishlist[FishNum].FihsIcon = GameManager.instance.FishIcon;
+        A_Fishlist[FishNum].FishName = GameManager.instance.FishName;
 
 
     }
@@ -160,6 +165,8 @@ public class FishManager : MonoBehaviour
 
         B_Fishlist[FishNum].FishHp = GameManager.instance.MaxFishHp;
         B_Fishlist[FishNum].FishPower = GameManager.instance.FishRobWear;
+        B_Fishlist[FishNum].FihsIcon = GameManager.instance.FishIcon;
+        B_Fishlist[FishNum].FishName = GameManager.instance.FishName;
 
 
     }
@@ -173,6 +180,8 @@ public class FishManager : MonoBehaviour
 
         C_Fishlist[FishNum].FishHp = GameManager.instance.MaxFishHp;
         C_Fishlist[FishNum].FishPower = GameManager.instance.FishRobWear;
+        C_Fishlist[FishNum].FihsIcon = GameManager.instance.FishIcon;
+        C_Fishlist[FishNum].FishName = GameManager.instance.FishName;
 
 
     }
@@ -186,6 +195,8 @@ public class FishManager : MonoBehaviour
 
         D_Fishlist[FishNum].FishHp = GameManager.instance.MaxFishHp;
         D_Fishlist[FishNum].FishPower = GameManager.instance.FishRobWear;
+        D_Fishlist[FishNum].FihsIcon = GameManager.instance.FishIcon;
+        D_Fishlist[FishNum].FishName = GameManager.instance.FishName;
 
 
     }
@@ -199,6 +210,8 @@ public class FishManager : MonoBehaviour
 
         F_Fishlist[FishNum].FishHp = GameManager.instance.MaxFishHp;
         F_Fishlist[FishNum].FishPower = GameManager.instance.FishRobWear;
+        F_Fishlist[FishNum].FihsIcon = GameManager.instance.FishIcon;
+        F_Fishlist[FishNum].FishName = GameManager.instance.FishName;
 
 
     }

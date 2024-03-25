@@ -6,16 +6,31 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance { private set; get; }
 
-    public float FishRobWear;
+    [Header("FishingSysetem")]
+
     public float MaxFishHp;
     public float CurrentFishHp;
+
     public float MaxFishRobHp;
     public float CurrentFishRobHp;
+
     public float FishRobPower;
+    public float FishRobWear;
+
     public float CurrentFishingTime;
     public float MaxFishingTime;
+
+    [Header("UI")]
+
     public bool UIOn;
-    // Start is called before the first frame update
+    public bool FishUIOn;
+
+    [Header("FishInfo")]
+
+    public GameObject FishIcon;
+    public string FishName;
+    public float Money;
+
     private void Awake()
     {
         GameManager.instance = this;
