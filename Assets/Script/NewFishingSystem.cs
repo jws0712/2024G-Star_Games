@@ -18,7 +18,9 @@ public class NewFishingSystem : MonoBehaviour
     [Header("UI")]
 
     public GameObject TouchUI;
-    public GameObject SwipeUI;
+    public GameObject SwipeUI_Up;
+    public GameObject SwipeUI_Left;
+    public GameObject SwipeUI_Right;
     public GameObject ThrowButton;
 
     private Vector2 StartPoint;
@@ -58,7 +60,9 @@ public class NewFishingSystem : MonoBehaviour
         if (flow == GameFlow.Idle)
         {
             ThrowButton.SetActive(true);
-            SwipeUI.SetActive(false);
+            SwipeUI_Up.SetActive(false);
+            SwipeUI_Left.SetActive(false);
+            SwipeUI_Right.SetActive(false);
             TouchUI.SetActive(false);
         }
         else if (flow == GameFlow.Touch)
@@ -73,27 +77,32 @@ public class NewFishingSystem : MonoBehaviour
                 flow = GameFlow.Swipe;
             }
 
-            SwipeUI.SetActive(false);
+            SwipeUI_Up.SetActive(false);
+            SwipeUI_Left.SetActive(false);
+            SwipeUI_Right.SetActive(false);
             TouchUI.SetActive(true);
         }
         else if (flow == GameFlow.Swipe)
         {
             ActionLogic();
 
-            SwipeUI.SetActive(true);
             TouchUI.SetActive(false);
         }
         else if (flow == GameFlow.Wait)
         {
             WaitFish();
 
-            SwipeUI.SetActive(false);
+            SwipeUI_Up.SetActive(false);
+            SwipeUI_Left.SetActive(false);
+            SwipeUI_Right.SetActive(false);
             ThrowButton.SetActive(false);
         }
         else if (flow == GameFlow.result)
         {
             GameManager.instance.FishUIOn = true;
-            SwipeUI.SetActive(false);
+            SwipeUI_Up.SetActive(false);
+            SwipeUI_Left.SetActive(false);
+            SwipeUI_Right.SetActive(false);
             TouchUI.SetActive(false);
         }
     }
@@ -170,16 +179,21 @@ public class NewFishingSystem : MonoBehaviour
         if(ActionNum == 1)
         {
             SwipeLeftAction();
+            SwipeUI_Left.SetActive(true);
 
         }
         else if (ActionNum == 2)
         {
             SwipeRightAction();
+            SwipeUI_Right.SetActive(true);
+
 
         }
         else if (ActionNum == 3)
         {
             SwipeUpAction();
+            SwipeUI_Up.SetActive(true);
+
         }
     }
 
@@ -200,10 +214,14 @@ public class NewFishingSystem : MonoBehaviour
                 {
                     SwipeTime += Time.deltaTime;
                 }
+                if (touch.phase == TouchPhase.Stationary)
+                {
+                    SwipeTime = 0;
+                }
                 if (touch.phase == TouchPhase.Ended)
                 {
                     EndPoint = touch.position;
-                    if (EndPoint.x < StartPoint.x && SwipeTime >= 0.05f)
+                    if (EndPoint.x < StartPoint.x && SwipeTime >= 0.09f)
                     {
                         GameManager.instance.CurrentFishingTime = GameManager.instance.MaxFishingTime;
                         GameManager.instance.CurrentFishHp -= GameManager.instance.FishRobPower * 5;
@@ -213,6 +231,10 @@ public class NewFishingSystem : MonoBehaviour
                         SwipeTime = 0;
                         AcitonOnce = false;
 
+                    }
+                    else
+                    {
+                        SwipeTime = 0;
                     }
                 }
             }
@@ -238,11 +260,15 @@ public class NewFishingSystem : MonoBehaviour
                 {
                     SwipeTime += Time.deltaTime;
                 }
+                if(touch.phase == TouchPhase.Stationary)
+                {
+                    SwipeTime = 0;
+                }
                 if (touch.phase == TouchPhase.Ended)
                 {
                     EndPoint = touch.position;
 
-                    if (EndPoint.x > StartPoint.x && SwipeTime >= 0.05f)
+                    if (EndPoint.x > StartPoint.x && SwipeTime >= 0.1005f)
                     {
                         GameManager.instance.CurrentFishingTime = GameManager.instance.MaxFishingTime;
                         GameManager.instance.CurrentFishHp -= GameManager.instance.FishRobPower * 5;
@@ -277,11 +303,15 @@ public class NewFishingSystem : MonoBehaviour
                 {
                     SwipeTime += Time.deltaTime;
                 }
+                if (touch.phase == TouchPhase.Stationary)
+                {
+                    SwipeTime = 0;
+                }
                 if (touch.phase == TouchPhase.Ended)
                 {
                     EndPoint = touch.position;
 
-                    if (EndPoint.y > StartPoint.y && SwipeTime >= 0.05f)
+                    if (EndPoint.y > StartPoint.y && SwipeTime >= 0.1005f)
                     {
                         GameManager.instance.CurrentFishingTime = GameManager.instance.MaxFishingTime;
                         GameManager.instance.CurrentFishHp -= GameManager.instance.FishRobPower * 5;

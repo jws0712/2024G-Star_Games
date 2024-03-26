@@ -21,6 +21,7 @@ public class UICon : MonoBehaviour
 
     public GameObject FishUI;
     public Text FishName;
+    public Text FishTear;
     public Image FishIcon;
 
     
@@ -74,6 +75,7 @@ public class UICon : MonoBehaviour
 
             FishName.text = GameManager.instance.FishName;
             FishIcon.sprite = GameManager.instance.FishIcon;
+            FishTear.text = GameManager.instance.FishTear;
         }
         else
         {

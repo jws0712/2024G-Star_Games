@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour
 
     public Sprite FishIcon;
     public string FishName;
+    public string FishTear;
     public float Money;
 
     private void Awake()
