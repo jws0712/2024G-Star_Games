@@ -24,6 +24,8 @@ public class UICon : MonoBehaviour
     public Text FishTear;
     public Image FishIcon;
 
+    public GameObject GameOverPanel;
+
     
 
     void Start()
@@ -45,6 +47,9 @@ public class UICon : MonoBehaviour
         HPSlider_Value();
         APSlider_Value();
         TimeSlider_Value();
+        GameOverUI();
+
+
     }
 
     public void HPSlider_Value()
@@ -98,5 +103,18 @@ public class UICon : MonoBehaviour
                 Sliders[i].gameObject.SetActive(true);
             }
         }
+    }
+
+    void GameOverUI()
+    {
+        if (GameManager.instance.GameOver == true)
+        {
+            GameOverPanel.SetActive(true);
+        }
+        else if (GameManager.instance.GameOver == false)
+        {
+            GameOverPanel.SetActive(false);
+        }
+
     }
 }

@@ -6,10 +6,10 @@ public class NewFishingSystem : MonoBehaviour
 {
 
     private float ActionTime;
-    private float WaitFishTime;
-    private float time;
+    public float WaitFishTime;
+    public float time;
     private float ActionNum;
-    public float SwipeTime;
+    private float SwipeTime;
 
     private bool IsFocus;
     private bool AcitonOnce;
@@ -33,7 +33,8 @@ public class NewFishingSystem : MonoBehaviour
         Swipe,
         Hold,
         Touch,
-        result
+        result,
+        GameOver
     }
 
     public GameFlow flow;
@@ -41,6 +42,7 @@ public class NewFishingSystem : MonoBehaviour
 
     void Start()
     {
+        GameManager.instance.GameOver = false;
         ActionTime = 3;
         flow = GameFlow.Idle;
     }
@@ -50,6 +52,7 @@ public class NewFishingSystem : MonoBehaviour
     {
         SetGame();
         Fishing_Mobile();
+        CheckGameFlow();
     }
 
     
@@ -64,6 +67,13 @@ public class NewFishingSystem : MonoBehaviour
             SwipeUI_Left.SetActive(false);
             SwipeUI_Right.SetActive(false);
             TouchUI.SetActive(false);
+            GameManager.instance.UIOn = false;
+            GameManager.instance.CurrentFishingTime = GameManager.instance.MaxFishingTime;
+            FishManager.instance.ChoiceFishTearOnce = false;
+            FishManager.instance.ChoiceFishOnce = false;
+            WaitOnce = false;
+            time = 0;
+            FishManager.instance.ChoiceFish();
         }
         else if (flow == GameFlow.Touch)
         {
@@ -90,8 +100,8 @@ public class NewFishingSystem : MonoBehaviour
         }
         else if (flow == GameFlow.Wait)
         {
-            WaitFish();
 
+            WaitFish();
             SwipeUI_Up.SetActive(false);
             SwipeUI_Left.SetActive(false);
             SwipeUI_Right.SetActive(false);
@@ -105,8 +115,21 @@ public class NewFishingSystem : MonoBehaviour
             SwipeUI_Right.SetActive(false);
             TouchUI.SetActive(false);
         }
+        else if (flow == GameFlow.GameOver)
+        {
+            GameManager.instance.GameOver = true;
+            ThrowButton.SetActive(false);
+            SwipeUI_Up.SetActive(false);
+            SwipeUI_Left.SetActive(false);
+            SwipeUI_Right.SetActive(false);
+            TouchUI.SetActive(false);
+            GameManager.instance.UIOn = false;
+        }
     }
-
+    public void GameOverButton()
+    {
+        Debug.Log("타이틀로 나감");
+    }
     public void GameResult()
     {
         flow = GameFlow.Idle;
@@ -129,6 +152,11 @@ public class NewFishingSystem : MonoBehaviour
         {
             CatchFish();
             TouchUI.SetActive(true);
+        }
+        if(time >= WaitFishTime + 4)
+        {
+            Debug.Log("놓침!");
+            flow = GameFlow.Idle;
         }
     }
 
@@ -337,6 +365,19 @@ public class NewFishingSystem : MonoBehaviour
             GameManager.instance.UIOn = false;
             flow = GameFlow.result;
             time = 0;
+        }
+    }
+
+    void CheckGameFlow()
+    {
+        if (GameManager.instance.CurrentFishRobHp <= 0)
+        {
+            flow = GameFlow.GameOver;
+        }
+        if (GameManager.instance.CurrentFishingTime <= 0)
+        {
+            Debug.Log("잡다가 놓침!");
+            flow = GameFlow.Idle;
         }
     }
 

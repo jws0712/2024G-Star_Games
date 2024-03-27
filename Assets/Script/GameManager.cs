@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour
 
     public bool UIOn;
     public bool FishUIOn;
+    public bool GameOver;
 
     [Header("FishInfo")]
 
@@ -57,6 +58,5 @@ public class GameManager : MonoBehaviour
         {
             CurrentFishingTime -= Time.deltaTime;
         }
-        
     }
 }
