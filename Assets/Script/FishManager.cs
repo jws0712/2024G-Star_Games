@@ -19,6 +19,7 @@ public class FishManager : MonoBehaviour
         public string FishName;
         public float FishHp;
         public float FishPower;
+        public float Money;
     }
     [Serializable]
 
@@ -28,6 +29,7 @@ public class FishManager : MonoBehaviour
         public string FishName;
         public float FishHp;
         public float FishPower;
+        public float Money;
     }
     [Serializable]
 
@@ -37,6 +39,7 @@ public class FishManager : MonoBehaviour
         public string FishName;
         public float FishHp;
         public float FishPower;
+        public float Money;
     }
     [Serializable]
 
@@ -46,6 +49,7 @@ public class FishManager : MonoBehaviour
         public string FishName;
         public float FishHp;
         public float FishPower;
+        public float Money;
     }
     [Serializable]
 
@@ -55,6 +59,7 @@ public class FishManager : MonoBehaviour
         public string FishName;
         public float FishHp;
         public float FishPower;
+        public float Money;
     }
     [Serializable]
 
@@ -64,6 +69,7 @@ public class FishManager : MonoBehaviour
         public string FishName;
         public float FishHp;
         public float FishPower;
+        public float Money;
     }
 
 
@@ -132,9 +138,11 @@ public class FishManager : MonoBehaviour
         }
 
         GameManager.instance.MaxFishHp = S_Fishlist[FishNum].FishHp;
+        GameManager.instance.CurrentFishHp = S_Fishlist[FishNum].FishHp;
         GameManager.instance.FishRobWear = S_Fishlist[FishNum].FishPower;
         GameManager.instance.FishIcon = S_Fishlist[FishNum].FishIcon;
         GameManager.instance.FishName = S_Fishlist[FishNum].FishName;
+        GameManager.instance.Money = S_Fishlist[FishNum].Money;
         GameManager.instance.FishTear = "S";
     }
 
@@ -148,8 +156,10 @@ public class FishManager : MonoBehaviour
 
         GameManager.instance.MaxFishHp = A_Fishlist[FishNum].FishHp;
         GameManager.instance.FishRobWear = A_Fishlist[FishNum].FishPower;
+        GameManager.instance.CurrentFishHp = A_Fishlist[FishNum].FishHp;
         GameManager.instance.FishIcon = A_Fishlist[FishNum].FishIcon;
         GameManager.instance.FishName = A_Fishlist[FishNum].FishName;
+        GameManager.instance.Money = S_Fishlist[FishNum].Money;
         GameManager.instance.FishTear = "A";
 
     }
@@ -164,8 +174,10 @@ public class FishManager : MonoBehaviour
 
         GameManager.instance.MaxFishHp = B_Fishlist[FishNum].FishHp;
         GameManager.instance.FishRobWear = B_Fishlist[FishNum].FishPower;
+        GameManager.instance.CurrentFishHp = B_Fishlist[FishNum].FishHp;
         GameManager.instance.FishIcon = B_Fishlist[FishNum].FishIcon;
         GameManager.instance.FishName = B_Fishlist[FishNum].FishName;
+        GameManager.instance.Money = S_Fishlist[FishNum].Money;
         GameManager.instance.FishTear = "B";
 
     }
@@ -180,8 +192,10 @@ public class FishManager : MonoBehaviour
 
         GameManager.instance.MaxFishHp = C_Fishlist[FishNum].FishHp;
         GameManager.instance.FishRobWear = C_Fishlist[FishNum].FishPower;
+        GameManager.instance.CurrentFishHp = C_Fishlist[FishNum].FishHp;
         GameManager.instance.FishIcon = C_Fishlist[FishNum].FishIcon;
         GameManager.instance.FishName = C_Fishlist[FishNum].FishName;
+        GameManager.instance.Money = S_Fishlist[FishNum].Money;
         GameManager.instance.FishTear = "C";
 
     }
@@ -196,8 +210,10 @@ public class FishManager : MonoBehaviour
 
         GameManager.instance.MaxFishHp = D_Fishlist[FishNum].FishHp;
         GameManager.instance.FishRobWear = D_Fishlist[FishNum].FishPower;
+        GameManager.instance.CurrentFishHp = D_Fishlist[FishNum].FishHp;
         GameManager.instance.FishIcon = D_Fishlist[FishNum].FishIcon;
         GameManager.instance.FishName = D_Fishlist[FishNum].FishName;
+        GameManager.instance.Money = S_Fishlist[FishNum].Money;
         GameManager.instance.FishTear = "D";
 
     }
@@ -212,8 +228,10 @@ public class FishManager : MonoBehaviour
 
         GameManager.instance.MaxFishHp = F_Fishlist[FishNum].FishHp;
         GameManager.instance.FishRobWear = F_Fishlist[FishNum].FishPower;
+        GameManager.instance.CurrentFishHp = F_Fishlist[FishNum].FishHp;
         GameManager.instance.FishIcon = F_Fishlist[FishNum].FishIcon;
         GameManager.instance.FishName = F_Fishlist[FishNum].FishName;
+        GameManager.instance.Money = S_Fishlist[FishNum].Money;
         GameManager.instance.FishTear = "F";
 
     }

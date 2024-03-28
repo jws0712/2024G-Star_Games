@@ -48,8 +48,6 @@ public class UICon : MonoBehaviour
         APSlider_Value();
         TimeSlider_Value();
         GameOverUI();
-
-
     }
 
     public void HPSlider_Value()

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.EventSystems;
 public class NewFishingSystem : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class NewFishingSystem : MonoBehaviour
     public float time;
     private float ActionNum;
     private float SwipeTime;
+    private float FinMoney;
 
     private bool IsFocus;
     private bool AcitonOnce;
@@ -22,6 +24,7 @@ public class NewFishingSystem : MonoBehaviour
     public GameObject SwipeUI_Left;
     public GameObject SwipeUI_Right;
     public GameObject ThrowButton;
+    public Text MoneyText;
 
     private Vector2 StartPoint;
     private Vector2 EndPoint;
@@ -134,6 +137,9 @@ public class NewFishingSystem : MonoBehaviour
     {
         flow = GameFlow.Idle;
         GameManager.instance.FishUIOn = false;
+        FinMoney += GameManager.instance.Money;
+        MoneyText.text = "Coin :" + FinMoney.ToString();
+
     }
     public void ThrowRob()
     {
