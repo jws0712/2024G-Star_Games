@@ -10,7 +10,7 @@ public class NewFishingSystem : MonoBehaviour
     public float WaitFishTime;
     public float time;
     private float ActionNum;
-    private float SwipeTime;
+    public float SwipeTime;
     private float FinMoney;
 
     private bool IsFocus;
@@ -255,7 +255,7 @@ public class NewFishingSystem : MonoBehaviour
                 if (touch.phase == TouchPhase.Ended)
                 {
                     EndPoint = touch.position;
-                    if (EndPoint.x < StartPoint.x && SwipeTime >= 0.09f)
+                    if (EndPoint.x < StartPoint.x && SwipeTime >= 0.07f)
                     {
                         GameManager.instance.CurrentFishingTime = GameManager.instance.MaxFishingTime;
                         GameManager.instance.CurrentFishHp -= GameManager.instance.FishRobPower * 5;
@@ -302,7 +302,7 @@ public class NewFishingSystem : MonoBehaviour
                 {
                     EndPoint = touch.position;
 
-                    if (EndPoint.x > StartPoint.x && SwipeTime >= 0.1005f)
+                    if (EndPoint.x > StartPoint.x && SwipeTime >= 0.07f)
                     {
                         GameManager.instance.CurrentFishingTime = GameManager.instance.MaxFishingTime;
                         GameManager.instance.CurrentFishHp -= GameManager.instance.FishRobPower * 5;
@@ -345,7 +345,7 @@ public class NewFishingSystem : MonoBehaviour
                 {
                     EndPoint = touch.position;
 
-                    if (EndPoint.y > StartPoint.y && SwipeTime >= 0.1005f)
+                    if (EndPoint.y > StartPoint.y && SwipeTime >= 0.07f)
                     {
                         GameManager.instance.CurrentFishingTime = GameManager.instance.MaxFishingTime;
                         GameManager.instance.CurrentFishHp -= GameManager.instance.FishRobPower * 5;
